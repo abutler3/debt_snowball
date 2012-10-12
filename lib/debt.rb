@@ -1,49 +1,95 @@
-class Debt
+require 'yaml'
 
-  def initalize
-    @balance = balance
-    @payment = payment
-    @name = name
-    @interest = interest
-  end
+$debt_arr = Array.new
 
-  def label
-    puts "Please enter the debt name..."
-    @name = gets.chomp
-  end
+$fn = 'debt_db.yml'
 
-  def payment
-    puts "Please enter the minimum monthly payment..."
-    @amount = gets.chomp
-  end
 
-  def balance
-    puts "Please enter the total balance"
-    @balance = gets.chomp
-  end
+class DebtList
 
-  def interest
-    puts "Please input the interest rate (no % sign)"
-    @interest = gets.chomp
-  end
+    def initialize
+        @name          = "Visa"
+        @minimum       = 50
+        @interest      = 0
+        @total         = 2000
+        # @name          = arr[0]
+        # @minimum       = arr[1]
+        # @interest      = arr[2]
+        # @total         = arr[3]
+    end
 
-  def create
-    header = puts "Name" + '   ' + "Minimum" + '   ' + "Balance" + '   ' + "Interest"
-    puts header
-    puts @name. + '  ' + @amount + '   ' + @balance + '   ' + @interest
-  end
+    def getdetails
+        return[@name, @minimum, @interest, @total]
+    end
 
-  def record
-    balance
-    payment
-    @balance = balance.to_i - payment.to_i
-    @balance
-  end
+    def newDebt
+
+  d_name = "Visa"
+  d_pay = 20
+  d_interest = 0
+  d_balance = 2000
+  # print( "Please enter the debt name: " )
+  # d_name = gets().chomp()
+  # print( "Please enter the minimum monthly payment: " )
+  # d_pay = gets().chomp().to_i
+  # print( "Please enter the interest. If none, enter 0: " )
+  # d_interest = gets().chomp().to_i
+  # print( "Please enter the total balance: " )
+  # d_balance = gets().chomp().to_i
+  return [d_name, d_pay, d_interest, d_balance ]
+end
 
 end
-ll = Debt.new
-ll.label
-ll.payment
-ll.balance
-ll.interest
-ll.create
+
+# def newDebt
+
+#   d_name = "Visa"
+#   d_pay = 20
+#   d_interest = 0
+#   d_balance = 2000
+#   # print( "Please enter the debt name: " )
+#   # d_name = gets().chomp()
+#   # print( "Please enter the minimum monthly payment: " )
+#   # d_pay = gets().chomp().to_i
+#   # print( "Please enter the interest. If none, enter 0: " )
+#   # d_interest = gets().chomp().to_i
+#   # print( "Please enter the total balance: " )
+#   # d_balance = gets().chomp().to_i
+#   return [d_name, d_pay, d_interest, d_balance ]
+# end
+
+
+def addDebt( add )
+    $debt_arr << add
+end
+
+def saveDB
+    File.open( $fn, 'w' ) {
+        |f|
+        f.write($debt_arr.to_yaml)
+    }
+end
+
+def loadDB
+    input_data = File.read( $fn )
+    $debt_arr = YAML::load( input_data )
+end
+
+def showData
+    puts( $debt_arr.to_yaml )
+end
+
+
+# ans = ''
+# until ans == 'q' do
+#   puts( "Add (D)ebt, (P)ayment CD, (L)ist All - (S)ave or (Q)uit?" )
+#   print( "> " )
+#   ans = gets[0].downcase()
+#   case ans
+#   when 'd' then addDebt( DebtList.new( newDebt() ) )
+#   when 'p' then puts "Payment made...."
+#   when 'l' then puts "Listing..."
+#   when 's' then saveDB
+#   end
+#   showData
+# end
