@@ -48,4 +48,8 @@ class SnowTest < Test::Unit::TestCase
         ll = Debt.new
        assert_equal(1800, ll.record)
    end
+
+    def test_10_total_debt_for_two_entries
+       assert_equal(1800, printData)
+   end
 end

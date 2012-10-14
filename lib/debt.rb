@@ -79,6 +79,12 @@ def showData
     puts( $debt_arr.to_yaml )
 end
 
+def printData
+  data = YAML.load_file("debt_db.yml")
+  data.each do |bill|
+    print
+  end
+end
 
 # ans = ''
 # until ans == 'q' do
