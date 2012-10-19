@@ -129,7 +129,7 @@ class Debt
 
     def zero_balance_to_pay
         zero_balance_start
-        amount_to_pay = @bill_list["balance"]
+        amount_to_pay = 600
     end
 
     def zero_balance_extra_no
@@ -137,7 +137,7 @@ class Debt
     end
 
     def add_extra
-      @extra += @bill_list["payment"]
+      @extra += 150
     end
 
     def rounding1
@@ -150,25 +150,35 @@ class Debt
       @total_paid_this_month = r(@total_paid_this_month + amount_to_pay)
     end
 
+    def result_ex
+      amount_to_pay = 2000
+      old_balance = 7000
+      interest = 1.2
+      balance = 5000
+      puts sprintf(print_max_name, bill["name"]) +
+            sprintf("  Pay:%-7.2f Was:%-7.2f Int:%-7.2f Now:%-7.2f",
+            amount_to_pay, old_balance, interest, balance)
+    end
+
   def pay_off
     m = 0
       while (@bill_list.length > 0)
         m += 1
         setup
         puts sprintf("Month %d: (extra=%.2f)", m, @extra_now)
-        @bill_list.each do |bill|
+        @bill_list.clone.each do |bill|
           apr = bill["apr"]
           old_balance = bill["balance"]
           amount_to_pay = r(bill["payment"] + @extra_now)
           new_balance = bill["balance"] - amount_to_pay
           if new_balance < 0
             amount_to_pay = bill["balance"]
-            extra_now = -(new_balance)
+            @extra_now = -(new_balance)
             @extra += bill["payment"]
             new_balance = 0
             @bill_list.delete(bill)
           else
-            extra_now = 0
+            @extra_now = 0
           end
           bill["balance"] = r(bill["balance"] - amount_to_pay)
           @total_paid_this_month = r(@total_paid_this_month + amount_to_pay)
@@ -189,3 +199,6 @@ class Debt
 
   end #End of method
 end # End of class
+
+ll = Debt.new
+ll.pay_off
