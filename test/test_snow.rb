@@ -52,4 +52,9 @@ class SnowTest < Test::Unit::TestCase
     def test_10_total_debt_for_two_entries
        assert_equal(1800, printData)
    end
+
+   def test_11_total_debt_for_two_entries
+       ll = Debt.new
+       assert_equal(1800, ll.show_month)
+   end
 end

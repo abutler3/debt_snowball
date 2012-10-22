@@ -161,10 +161,9 @@ class Debt
     end
 
     def show_month
-      @bill_list.empty?
-      @bill_list.each_with_index do |month|
-        puts sprintf("Month #{month}")
-      end
+      1.upto(@months_limit) {|i|
+        print "Month #{i} \n"
+      }
     end
 
   # def pay_off
