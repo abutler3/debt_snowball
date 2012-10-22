@@ -161,53 +161,52 @@ class Debt
     end
 
     def show_month
-
-      while (@bill_list.length > 0)
-        m += 1
-        setup
-        puts sprintf("Month %d: (extra=%.2f)", m, @extra_now)
+      @bill_list.empty?
+      @bill_list.each_with_index do |month|
+        puts sprintf("Month #{month}")
       end
+    end
 
-  def pay_off
-    # m = 0
-    #   while (@bill_list.length > 0)
-    #     m += 1
-    #     setup
-    #     puts sprintf("Month %d: (extra=%.2f)", m, @extra_now)
-        @bill_list.clone.each do |bill|
-          apr = bill["apr"]
-          old_balance = bill["balance"]
-          amount_to_pay = r(bill["payment"] + @extra_now)
-          new_balance = bill["balance"] - amount_to_pay
-          if new_balance < 0
-            amount_to_pay = bill["balance"]
-            @extra_now = -(new_balance)
-            @extra += bill["payment"]
-            new_balance = 0
-            @bill_list.delete(bill)
-          else
-            @extra_now = 0
-          end
-          bill["balance"] = r(bill["balance"] - amount_to_pay)
-          @total_paid_this_month = r(@total_paid_this_month + amount_to_pay)
-          interest = r(bill["balance"] * (apr / 1200.0))
-          @total_interest_this_month = r(@total_interest_this_month + interest)
-          bill["balance"] = r(bill["balance"] + interest)
-          puts sprintf(print_max_name, bill["name"]) +
-            sprintf("  Pay:%-7.2f Was:%-7.2f Int:%-7.2f Now:%-7.2f",
-            amount_to_pay, old_balance, interest, bill["balance"])
-        end
-        puts sprintf("#{print_max_name}  PAY:%-7.2f WAS:%-7.2f INT:%-7.2f NOW:%-7.2f", "MONTH TOTAL",
-          @total_paid_this_month, @total_old_balance, @total_interest_this_month, total_balance)
-        puts
-        # if m >= @months_limit
-        #   puts "(terminating run after #{m} months)"
-        #   exit
-        # end # End of if
-      end
+  # def pay_off
+  #   m = 0
+  #     while (@bill_list.length > 0)
+  #       m += 1
+  #       setup
+  #       puts sprintf("Month %d: (extra=%.2f)", m, @extra_now)
+  #       @bill_list.clone.each do |bill|
+  #         apr = bill["apr"]
+  #         old_balance = bill["balance"]
+  #         amount_to_pay = r(bill["payment"] + @extra_now)
+  #         new_balance = bill["balance"] - amount_to_pay
+  #         if new_balance < 0
+  #           amount_to_pay = bill["balance"]
+  #           @extra_now = -(new_balance)
+  #           @extra += bill["payment"]
+  #           new_balance = 0
+  #           @bill_list.delete(bill)
+  #         else
+  #           @extra_now = 0
+  #         end
+  #         bill["balance"] = r(bill["balance"] - amount_to_pay)
+  #         @total_paid_this_month = r(@total_paid_this_month + amount_to_pay)
+  #         interest = r(bill["balance"] * (apr / 1200.0))
+  #         @total_interest_this_month = r(@total_interest_this_month + interest)
+  #         bill["balance"] = r(bill["balance"] + interest)
+  #         puts sprintf(print_max_name, bill["name"]) +
+  #           sprintf("  Pay:%-7.2f Was:%-7.2f Int:%-7.2f Now:%-7.2f",
+  #           amount_to_pay, old_balance, interest, bill["balance"])
+  #       end
+  #       puts sprintf("#{print_max_name}  PAY:%-7.2f WAS:%-7.2f INT:%-7.2f NOW:%-7.2f", "MONTH TOTAL",
+  #         @total_paid_this_month, @total_old_balance, @total_interest_this_month, total_balance)
+  #       puts
+  #       # if m >= @months_limit
+  #       #   puts "(terminating run after #{m} months)"
+  #       #   exit
+  #       # end # End of if
+  #     end
 
-  end #End of method
+  # end #End of method
 end # End of class
 
-ll = Debt.new
-ll.pay_off
+# ll = Debt.new
+# ll.pay_off
